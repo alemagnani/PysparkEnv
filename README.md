@@ -10,7 +10,10 @@ Example:
 from pysparkvenv import SparkContextVenv, virtualenv
 venvtarball_file = '/tmp/venv.tar.gz' # available only local no need to have it on the nodes
 venv_name = 'venv' # name of the venv when unzipped
-with SparkContextVenv('application_name', virtual_env_tarball_file=venvtarball_file, venv_name=venv_name) as sc: #
+
+env_variables_dict = {'LD_LIBRARY_PATH': '/home/user/lib'} # if env variables need to be set on the nodes
+
+with SparkContextVenv('application_name', virtual_env_tarball_file=venvtarball_file, venv_name=venv_name, env_variables_dict=env_variables_dict) as sc: #
         
         @virtualenv(sc.venv_name) #enable the venv on the node
         def computation(data):

@@ -2,7 +2,7 @@ import os
 from pyspark import SparkContext, SparkConf, SparkFiles
 
 class SparkContextVenv(SparkContext):
-    def __init__(self,app_name, virtual_env_tarball_file, venv_name=None, python_path='/usr/bin/python2.7'):
+    def __init__(self,app_name, virtual_env_tarball_file, venv_name=None, python_path='/usr/bin/python2.7', env_variables_dict=None):
         assert os.path.isfile(virtual_env_tarball_file)
         assert os.path.isfile(python_path)
         self.virtual_env_tarball_file = virtual_env_tarball_file
@@ -15,6 +15,9 @@ class SparkContextVenv(SparkContext):
 
         os.environ['PYSPARK_PYTHON'] = self.python_path
         conf = SparkConf()
+        if env_variables_dict:
+            for key, value in env_variables_dict.iteritems():
+                conf.setExecutorEnv(key=key, value=value)
         super(SparkContextVenv, self).__init__(appName=app_name, conf=conf)
         self.addFile(self.virtual_env_tarball_file)
 
