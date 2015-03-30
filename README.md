@@ -2,6 +2,8 @@
 Helper classes to run Pyspark with a virtual environment
 
 When running code on Pyspark that depends on multiple libraries it could be hard to ship all the libraries using the SparkContext.
+Moreover with multiple users on a cluster, there might be conflicts between versions of libraries required by each user.
+
 This code ships a tarball containing a venv to all the nodes and then sets the env on the node to use it.
 This makes is easier to use PySpark with a virtual environment.
 
