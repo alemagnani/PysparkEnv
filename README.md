@@ -7,9 +7,10 @@ This makes is easier to use PySpark with a virtual environment.
 
 Example:
 ```python
-local_location_venvtarball = '/tmp/venv.tar.gz' # available only local no need to have it on the nodes
+from pysparkvenv import SparkContextVenv, virtualenv
+venvtarball_file = '/tmp/venv.tar.gz' # available only local no need to have it on the nodes
 venv_name = 'venv' # name of the venv when unzipped
-with SparkVirtualEnvContext('applecation_name', virtual_env_tarball_file=local_location_venvtarball, venv_name=venv_name) as sc: #
+with SparkContextVenv('application_name', virtual_env_tarball_file=venvtarball_file, venv_name=venv_name) as sc: #
         
         @virtualenv(sc.venv_name) #enable the venv on the node
         def computation(data):
