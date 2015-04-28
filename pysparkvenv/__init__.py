@@ -1,2 +1,2 @@
-from venv import SparkContextVenv
-from venv import virtualenv
+from pysparkvenv.venv import SparkContextVenv
+from pysparkvenv.venv import virtualenv

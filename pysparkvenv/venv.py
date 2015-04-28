@@ -15,8 +15,10 @@ class SparkContextVenv(SparkContext):
 
         os.environ['PYSPARK_PYTHON'] = self.python_path
         conf = SparkConf()
+        self.env_variables_dict = env_variables_dict
         if env_variables_dict:
             for key, value in env_variables_dict.iteritems():
+                print 'setting env: {} with value: {}'.format(key, value)
                 conf.setExecutorEnv(key=key, value=value)
         super(SparkContextVenv, self).__init__(appName=app_name, conf=conf)
         self.addFile(self.virtual_env_tarball_file)
@@ -30,8 +32,8 @@ class SparkContextVenv(SparkContext):
 def virtualenv(venv_name):
   def wrap(f):
     def wrapped_f(*args, **kwargs):
-        print 'called wrapped_f'
         venv_location = SparkFiles.get(venv_name)
+        print 'called wrapped_f for virtual env in {}'.format(venv_location)
         activate_env="%s/bin/activate_this.py" % venv_location
         execfile(activate_env, dict(__file__=activate_env))
         return f(*args, **kwargs)
