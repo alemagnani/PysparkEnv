@@ -41,15 +41,15 @@ class SparkContextVenv(SparkContext):
 def virtualenv(venv_name):
   def wrap(f):
     def wrapped_f(*args, **kwargs):
-        venv_location = SparkFiles.get(venv_name)
-        print 'called wrapped_f for virtual env in {}'.format(venv_location)
-        activate_env="%s/bin/activate_this.py" % venv_location
-        execfile(activate_env, dict(__file__=activate_env))
-
         import sys
         numpy_mods = [item for item in sys.modules if ('numpy' in item or 'scipy' in item)]
         for mod in numpy_mods:
             sys.modules.pop(mod)
+
+        venv_location = SparkFiles.get(venv_name)
+        print 'called wrapped_f for virtual env in {}'.format(venv_location)
+        activate_env="%s/bin/activate_this.py" % venv_location
+        execfile(activate_env, dict(__file__=activate_env))
 
         return f(*args, **kwargs)
     return wrapped_f
